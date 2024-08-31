@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Image from 'next/image'
 import StickyHeader from "./components/header/header.component";
 import StickyFooter from "./components/footer/footer.component";
 import Script from "next/script";
