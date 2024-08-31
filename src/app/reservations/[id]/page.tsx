@@ -42,9 +42,9 @@ const ReservationsPage = async () => {
       hours_of_operation.forEach(hour => {
           // TODO calculate 24 hour interval
           if (hour < 12) {
-            options.push(<option>{hour} + " AM"</option>)
+            options.push(<option>{hour} + AM</option>)
           } else {
-            options.push(<option>{hour - 12} + " PM"</option>)
+            options.push(<option>{hour - 12} + PM</option>)
           }
       })
     }
