@@ -1,4 +1,3 @@
-import { ReservationData } from "@/interfaces/Reservations.interfaces";
 import { saveReservation } from "@/service/Reservation.services";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -12,11 +11,11 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
     // TODO parse out reservation data here
+    console.log(data);
     const res = await saveReservation({
       restaurant_id: "",
       reservation_name: "",
       hours: 0,
-      confirmed : false,
       date: new Date,
       email: "",
       number: "",

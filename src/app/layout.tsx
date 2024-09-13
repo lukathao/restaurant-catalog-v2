@@ -27,18 +27,20 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'G-6S1GHQLBHE');
             `
           }
         </Script>
       </head>
       <body className={inter.className}>
-        <StickyHeader />
-        <main className="bg-white">
-          {children}
-        </main>
-        <StickyFooter />
+        <div className="flex flex-col h-screen justify-between">
+          <StickyHeader />
+          <main className="bg-white">
+            {children}
+          </main>
+          <StickyFooter />
+        </div>
+        
       </body>
     </html>
   );

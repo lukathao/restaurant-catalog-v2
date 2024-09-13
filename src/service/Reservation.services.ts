@@ -1,3 +1,5 @@
+"Use server";
+
 import { ReservationData } from "@/interfaces/Reservations.interfaces";
 
 export function saveReservation(reservationData: ReservationData) {
