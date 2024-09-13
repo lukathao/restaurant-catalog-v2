@@ -4,6 +4,7 @@ import "./globals.css";
 import StickyHeader from "./components/header/header.component";
 import StickyFooter from "./components/footer/footer.component";
 import Script from "next/script";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,7 +37,9 @@ export default function RootLayout({
         <div className="flex flex-col h-screen justify-between">
           <StickyHeader />
           <main className="bg-white">
-            {children}
+            <Suspense fallback={<div>Loading...</div>}>
+              {children}
+            </Suspense>
           </main>
           <StickyFooter />
         </div>

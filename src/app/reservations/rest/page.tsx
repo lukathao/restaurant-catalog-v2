@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { JSX, useState } from 'react';
+import { JSX, Suspense, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
@@ -80,7 +80,7 @@ const ReservationsPage = () => {
   return (
     <>
       <div className="flex max-w-[350px] flex-col gap-5 rounded bg-white p-5">
-        <h1>Make a reservation for {restaurantName}</h1>
+          <h1>Make a reservation for {restaurantName}</h1>
         <form
         onSubmit={handleSubmit(submit)}>
           <div id="reservation_name" className="flex flex-col">

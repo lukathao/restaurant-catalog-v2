@@ -17,7 +17,7 @@ const Restaurants = async () => {
           restaurants?.map((restaurant) =>(
             <>
               <Link href={{
-                pathname: `/reservations/restaurant`,
+                pathname: `/reservations/rest`,
                 query: {
                   restaurantId: restaurant.id,
                   restaurantName: restaurant.business_name
