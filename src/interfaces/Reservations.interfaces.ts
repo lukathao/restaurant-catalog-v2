@@ -3,7 +3,7 @@ export interface ReservationData {
   reservation_name: string;
   hours: number;
   guests: number;
-  date: Date;
+  date: string;
   email: string,
   number: string,
 }

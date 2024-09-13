@@ -4,9 +4,10 @@ import Link from 'next/link';
 import { JSX, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
 
 type ReservationsType = {
-  restaurant_id: string;
+  restaurant_id: string | null;
   reservation_name: string;
   hours: number;
   guests: number;
@@ -16,8 +17,9 @@ type ReservationsType = {
 }
 
 const ReservationsPage = () => {
-  const id = "";
-  const restaurantInfo = "";
+  const searchParams = useSearchParams();
+  const restaurantName = searchParams.get('restaurantName');
+  const restaurantId = searchParams.get('restaurantId');
 
   const { register, handleSubmit, formState: {errors, isSubmitting}, reset } = useForm<ReservationsType>({
     reValidateMode: "onSubmit",
@@ -50,7 +52,7 @@ const ReservationsPage = () => {
 
   const submit= async (reservation : ReservationsType) => {
     //TODO set this to the restaurant ID
-    reservation.restaurant_id = "";
+    reservation.restaurant_id = restaurantId;
     reservation.date = date;
     try {
       const response = await fetch('/api/reservations', {
@@ -78,7 +80,7 @@ const ReservationsPage = () => {
   return (
     <>
       <div className="flex max-w-[350px] flex-col gap-5 rounded bg-white p-5">
-        <h1>Reservations</h1>
+        <h1>Make a reservation for {restaurantName}</h1>
         <form
         onSubmit={handleSubmit(submit)}>
           <div id="reservation_name" className="flex flex-col">
@@ -100,7 +102,7 @@ const ReservationsPage = () => {
             <input 
               type="text"
               className="text-black border-black border-2"
-              {...register("reservation_name", {
+              {...register("email", {
                 required: "Invalid reservation name", 
                 minLength: {
                   value: 1,
