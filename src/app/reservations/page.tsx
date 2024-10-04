@@ -1,11 +1,11 @@
 "use server";
 import React from 'react'
 import Link from 'next/link';
-import { getRestaurants } from '../service/Reservation.services';
+import { getBusinesses } from '../service/Restaurant.service';
 
 
 const Restaurants = async () => {
-  const restaurants = await getRestaurants();
+  const businesses = await getBusinesses();
 
   return (
     <>
@@ -14,23 +14,19 @@ const Restaurants = async () => {
       </div>
       <div>
         {
-          restaurants?.map((restaurant) =>(
+          businesses?.map((business) => (
             <>
               <Link href={{
                 pathname: `/reservations/rest`,
                 query: {
-                  restaurantId: restaurant.id,
-                  restaurantName: restaurant.business_name
+                  businessId: business.business_id,
+                  businessName: business.business_name
                 }
-              
               }}
               >
                 <div className="text-black border-black border-2">
                   <div>
-                    {restaurant.business_name}
-                  </div>
-                  <div>
-                    {restaurant.business_owner}
+                    {business.business_name}
                   </div>
                 </div>
               </Link>

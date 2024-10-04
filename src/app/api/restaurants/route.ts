@@ -1,36 +1,26 @@
-
-import { saveReservation } from "@/app/service/Reservation.services";
 import { NextRequest, NextResponse } from "next/server";
 import { format } from "date-fns"
-
-export async function GET() {
-  return NextResponse.json({
-    "hello": "world",
-  })
-}
+import { saveBusiness } from "@/app/service/Restaurant.service";
 
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
     // TODO parse out reservation data here
     const date = format(data["date"], "MM/dd/yyyy");
-    const res = await saveReservation({
-      business_id: data["business_id"],
-      reservation_name: data["reservation_name"],
-      hours: data["hours"],
-      date: date,
+    const restaurant_id = await saveBusiness({
+      business_id: null,
+      business_name: data["business_name"],
+      business_owner: data["business_owner"],
       email: data["email"],
-      number: "", //for future use of sms
-      guests: data["guests"]
     });
-    // Give more details in msg
-    const msg = "Saved Reservation"
+    const msg = "Created business"
     return NextResponse.json({
       message: msg,
       headers: {
         "Content-Type": "application/json",
       },
       status: 201,
+      restaurant_id: restaurant_id
     });
   } catch (error) {
     console.log(error);
