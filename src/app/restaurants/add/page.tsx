@@ -41,17 +41,18 @@ const AddRestaurant = () => {
 
   return (
     <>
-      <div>
-        <h1>Welcome to FoodieCat, Foodie Catalogue</h1>
-      </div>
-      <div>
-        <form onSubmit={handleSubmit(submit)}>
+      <div className="flex flex-row flex-col min-h-screen justify-center items-center">
+        <h1 className='text-3xl font-semibold'>Foodie Cat</h1>
+        <p>Add a new restaurant to the catalog</p>
+        <form
+          className='min-w-96 mx-auto space-y-6 p-4 my-4 justify-center items-center'
+          onSubmit={handleSubmit(submit)}>
 
-          <div id="business_name" className="flex flex-col">
-            <label>Business name</label>
+          <div id="business_name">
+            <label className='font-semibold'>Business name</label>
             <input
               type="text"
-              className="text-black border-black border-2"
+              className="text-black border-gray-400 border-2 block px-4 w-full rounded"
               {...register("business_name", {
                 required: "Invalid business name",
                 minLength: {
@@ -62,11 +63,11 @@ const AddRestaurant = () => {
             {errors.business_name && (<p className="text-red-500">{errors.business_name.message}</p>)}
           </div>
 
-          <div id="business_owner" className="flex flex-col">
-            <label>Owner name</label>
+          <div id="business_owner">
+            <label className='font-semibold'>Owner name</label>
             <input
               type="text"
-              className="text-black border-black border-2"
+              className="text-black border-gray-400 border-2 block px-4 w-full rounded"
               {...register("business_owner", {
                 required: "Invalid business owner name",
                 minLength: {
@@ -77,11 +78,11 @@ const AddRestaurant = () => {
             {errors.business_owner && (<p className="text-red-500">{errors.business_owner.message}</p>)}
           </div>
 
-          <div id="email" className="flex flex-col">
-            <label>Contact email:</label>
+          <div id="email">
+            <label className='font-semibold'>Contact email:</label>
             <input
               type="text"
-              className="text-black border-black border-2"
+              className="text-black border-gray-400 border-2 block px-4 w-full rounded"
               {...register("email", {
                 required: "Invalid email",
                 minLength: {
@@ -91,9 +92,6 @@ const AddRestaurant = () => {
               })} />
             {errors.email && (<p className="text-red-500">{errors.email.message}</p>)}
           </div>
-
-          <br />
-          <br />
           <div>
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border-black disabled:opacity-50 disabled:cursor-not-allowed"

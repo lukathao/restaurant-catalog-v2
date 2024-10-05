@@ -2,10 +2,11 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex flex-row min-h-screen justify-center items-center">
       <div>
-        <h1>Restaurants</h1>
-        <Link href="/static/chubbys">Chubby&apos;s Asian Fusion Cuisine</Link>
+        <h1 className="text-3xl font-semibold">Foodie Cat</h1>
+        <p>Welcome to Foodie Cat, short for foodie catalog</p>
+        <Link href="/static/chubbys">Click here to see our digital menus</Link>
       </div>
     </main>
   );

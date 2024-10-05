@@ -1,11 +1,12 @@
 
-import { saveReservation } from "@/app/service/Reservation.services";
+import { getReservations, saveReservation } from "@/app/service/Reservation.services";
 import { NextRequest, NextResponse } from "next/server";
 import { format } from "date-fns"
 
 export async function GET() {
+  const dates = await getReservations();
   return NextResponse.json({
-    "hello": "world",
+    "dates": dates,
   })
 }
 

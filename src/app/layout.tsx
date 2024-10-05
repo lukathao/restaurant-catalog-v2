@@ -36,14 +36,14 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="flex flex-col h-screen justify-between">
           <StickyHeader />
-          <main className="bg-white">
+          <main>
             <Suspense fallback={<div>Loading...</div>}>
               {children}
             </Suspense>
           </main>
           <StickyFooter />
         </div>
-        
+
       </body>
     </html>
   );
