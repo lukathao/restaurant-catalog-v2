@@ -1,20 +1,68 @@
-import { BusinessServiceClient } from "@/proto/business_grpc_pb";
+import { client } from "@/app/utilities/utils";
+import { Business, BusinessFull, BusinessId } from "@/proto/business_pb";
+import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 
-const grpc = require("@grpc/grpc-js");
-var protoLoader = require("@grpc/proto-loader");
-const PROTO_PATH = "@/proto/business.proto";
+export function getBusiness(business_id: number) {
+  return new Promise<BusinessFull>((resolve, reject) => {
+    const request = new BusinessId()
+      .setBusinessId(business_id);
 
-const options = {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-};
+    client.getBusiness(request, (err, business) => {
+      if (err) reject(err);
+      else resolve(business);
+    });
+  });
+}
 
-var packageDefinition = protoLoader.loadSync(PROTO_PATH, options).BusinessService;
+export function getAllBusinesses() {
+  return new Promise<Business[]>((resolve, reject) => {
+    const stream = client.getBusinesses(new Empty());
+    const businesses: Business[] = [];
+    stream.on("data", (business: Business) => businesses.push(business));
+    stream.on("error", reject);
+    stream.on("end", () => resolve(businesses));
+  });
+}
 
-const client = new BusinessServiceClient(
-  "localhost:50051",
-  grpc.credentials.createInsecure()
-);
+export function createBusiness(business: Business) {
+  return new Promise<BusinessId>((resolve, reject) => {
+    const request = new Business()
+      .setBusinessId(-1)
+      .setBusinessName(business.getBusinessName())
+      .setBusinessOwner(business.getBusinessOwner())
+      .setEmail(business.getEmail());
+
+    client.saveBusiness(request, (err, id) => {
+      if (err) reject(err);
+      else resolve(id);
+    });
+  });
+}
+
+export function updateBusiness(business: BusinessFull) {
+  return new Promise<BusinessId>((resolve, reject) => {
+    // TODO add the other parameters here and in protobuf and generate new code
+    const request = new BusinessFull()
+      .setBusinessId(business.getBusinessId())
+      .setBusinessOwner(business.getBusinessOwner())
+      .setBusinessName(business.getBusinessName())
+      .setEmail(business.getEmail());
+
+    client.updateBusiness(request, (err, id) => {
+      if (err) reject(err);
+      else resolve(id);
+    });
+  });
+}
+
+export function deactivateBusiness(id: number) {
+  return new Promise<BusinessId>((resolve, reject) => {
+    const request = new BusinessId()
+      .setBusinessId(id);
+
+    client.deactivateBusiness(request, (err, id) => {
+      if (err) reject(err);
+      else resolve(id);
+    });
+  });
+}

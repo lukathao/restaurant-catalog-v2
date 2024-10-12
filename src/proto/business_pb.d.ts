@@ -1,12 +1,15 @@
-// package: 
+// package: business
 // file: business.proto
 
 /* tslint:disable */
 /* eslint-disable */
 
 import * as jspb from "google-protobuf";
+import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 
 export class Business extends jspb.Message { 
+    getBusinessId(): number;
+    setBusinessId(value: number): Business;
     getBusinessName(): string;
     setBusinessName(value: string): Business;
     getBusinessOwner(): string;
@@ -26,6 +29,7 @@ export class Business extends jspb.Message {
 
 export namespace Business {
     export type AsObject = {
+        businessId: number,
         businessName: string,
         businessOwner: string,
         email: string,
