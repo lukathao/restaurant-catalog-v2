@@ -6,11 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build_proto": "sh ./src/proto/build.sh"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.12.2",
+    "@grpc/proto-loader": "^0.7.13",
     "@neondatabase/serverless": "^0.9.5",
     "date-fns": "^3.6.0",
+    "grpc_tools_node_protoc_ts": "^5.3.3",
     "next": "14.2.7",
     "react": "^18",
     "react-datepicker": "^7.3.0",

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+message Business {
+  string business_name = 1;
+  string business_owner = 2;
+  string email = 3;
+}
+
+message BusinessFull {
+  int32 business_id = 1;
+  string business_name = 2;
+  string business_owner = 3;
+  string email = 4;
+}
+
+message BusinessId {
+  int32 business_id = 1;
+}
+
+service BusinessService {
+  rpc SaveBusiness (Business) returns (BusinessId) {}
+  rpc UpdateBusiness (BusinessFull) returns (BusinessId) {}
+  rpc DeactivateBusiness (BusinessId) returns (BusinessId) {}
+}
+
