@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package business;
+
+import "google/protobuf/empty.proto";
+
+message Business {
+  int32 business_id = 1;
+  string business_name = 2;
+  string business_owner = 3;
+  string email = 4;
+}
+
+message BusinessFull {
+  int32 business_id = 1;
+  string business_name = 2;
+  string business_owner = 3;
+  string email = 4;
+}
+
+message BusinessId {
+  int32 business_id = 1;
+}
+
+service BusinessService {
+  rpc getBusiness (BusinessId) returns (BusinessFull) {}
+  rpc getBusinesses (google.protobuf.Empty) returns (stream Business) {}
+  rpc SaveBusiness (Business) returns (BusinessId) {}
+  rpc UpdateBusiness (BusinessFull) returns (BusinessId) {}
+  rpc DeactivateBusiness (BusinessId) returns (BusinessId) {}
+}
+
