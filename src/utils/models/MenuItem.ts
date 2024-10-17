@@ -47,4 +47,4 @@ menuItemSchema.methods.hasUserPurchased = async function (userId: String) {
   }); return !!hasOrdered;
 }
 
-export const Product = mongoose.models.Product || mongoose.model("MenuItem", menuItemSchema);
+export const MenuItem = mongoose.models.MenuItem || mongoose.model("MenuItem", menuItemSchema);

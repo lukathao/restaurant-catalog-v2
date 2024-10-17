@@ -20,8 +20,8 @@ const nextConfig = {
   },
   env: {
     HOST_URL: process.env.NEXT_PUBLIC_HOST_URL,
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "INSERT CLOUD NAME HERE*******************************",
-    NEXT_PUBLIC_CLOUDINARY_PRESET_NAME: "INSERT PRESET NAME HERE ******************************",
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "dwli9x328",
+    NEXT_PUBLIC_CLOUDINARY_PRESET_NAME: "foodiecatpreset",
   },
   webpack: (config) => {
     config.resolve.alias["@"] = resolve(__dirname);
