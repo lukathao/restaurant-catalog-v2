@@ -19,7 +19,7 @@ const createUser = async (email, password, name) => {
   return await newUser.save();
 }
 
-export const authOptions = {
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",

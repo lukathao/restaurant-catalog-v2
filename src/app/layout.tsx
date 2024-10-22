@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import StickyHeader from "./components/header/header.component";
-import StickyFooter from "./components/footer/footer.component";
 import Script from "next/script";
 import { Suspense } from "react";
 import SessionWrapper from "@/components/session/SessionWrapper";
-import SVGBackground from "@/components/background/background";
 
 const inter = Inter({ subsets: ["latin"] });
 
