@@ -100,7 +100,7 @@ const Signup = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen overflow-hidden bg-blue-100 relative">
+      <div className="flex justify-center items-center min-h-screen overflow-hidden relative">
 
         <div
           className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md relative z-10"

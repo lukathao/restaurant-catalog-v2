@@ -65,7 +65,7 @@ const Login = () => {
   }, [status, session, router]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen overflow-hidden bg-blue-100 relative">
+    <div className="flex justify-center items-center min-h-screen overflow-hidden relative">
       <div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
