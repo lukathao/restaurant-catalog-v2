@@ -20,6 +20,7 @@ const config: Config = {
     },
     extend: {
       colors: {
+        foodOrange: '#ff6700',
         gold: '#FFD700',
         border: 'hsl(var(--border))',
         colorOne: '070F2B',
