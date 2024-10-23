@@ -1,63 +1,63 @@
 import { dbConnect } from "@/utils/config/dbConnection";
 import { NextRequest, NextResponse } from "next/server";
-import { MenuItem } from "@/utils/models/MenuItem";
+import { Product } from "@/utils/models/Product";
 
 export async function GET(req: NextRequest, { params }: any) {
   await dbConnect();
 
-  const [menuItemId] = params;
+  const [productId] = params;
 
   try {
-    const menuItem = await MenuItem.findById(menuItemId);
-    if (!menuItem) {
+    const product = await Product.findById(productId);
+    if (!product) {
       return NextResponse.json(
-        { error: "Menu item not found" },
+        { error: "Product not found" },
         { status: 404 },
       )
     }
-    return NextResponse.json(menuItem);
+    return NextResponse.json(product);
   } catch (error) {
-    return NextResponse.json({ error: "error fetching menu item" }, { status: 500 });
+    return NextResponse.json({ error: "error fetching product" }, { status: 500 });
   }
 }
 
 export async function PUT(req: NextRequest, { params }: any) {
   await dbConnect();
-  const [menuItemId] = params;
+  const [productId] = params;
   const body = await req.json();
 
   try {
-    const updatedMenuItem = await MenuItem.findByIdAndUpdate(menuItemId, body, {
+    const updatedProduct = await Product.findByIdAndUpdate(productId, body, {
       new: true, runValidators: true,
     });
-    if (!updatedMenuItem) {
+    if (!updatedProduct) {
       return NextResponse.json(
-        { error: "Menu item not updated" },
+        { error: "Product not updated" },
         { status: 404 },
       )
     }
-    return NextResponse.json(updatedMenuItem);
+    return NextResponse.json(updatedProduct);
   } catch (error) {
-    return NextResponse.json({ error: "error updating menu item" }, { status: 500 });
+    return NextResponse.json({ error: "error updating product" }, { status: 500 });
   }
 }
 
 export async function DELETE(req: NextRequest, { params }: any) {
   await dbConnect();
-  const [menuItemId] = params;
+  const [productId] = params;
 
   try {
-    const deletedMenuItem = await MenuItem.findByIdAndUpdate(menuItemId, { isActive: false }, {
+    const deletedProduct = await Product.findByIdAndUpdate(productId, { isActive: false }, {
       returnOriginal: false
     });
-    if (!deletedMenuItem) {
+    if (!deletedProduct) {
       return NextResponse.json(
-        { error: "Menu item not updated" },
+        { error: "Product not updated" },
         { status: 404 },
       )
     }
-    return NextResponse.json(deletedMenuItem);
+    return NextResponse.json(deletedProduct);
   } catch (error) {
-    return NextResponse.json({ error: "error updating menu item" }, { status: 500 });
+    return NextResponse.json({ error: "error updating product" }, { status: 500 });
   }
 }

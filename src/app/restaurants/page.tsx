@@ -2,7 +2,7 @@ import React from 'react'
 
 const Restaurants = () => {
   return (
-    <div>List of Restaurants</div>
+    <div>List of Restaurants with links taking you to individual businesses</div>
   )
 }
 

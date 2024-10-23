@@ -1,4 +1,4 @@
-import connect from "@/utils/config/dbConnection";
+import { dbConnect } from "@/utils/config/dbConnection";
 import User from "@/utils/models/User";
 import bcrypt from "bcrypt";
 import { NextResponse, NextRequest } from "next/server";
@@ -7,7 +7,7 @@ const DEFAULT_PROFILE_IMAGE = "https://cdn.pixabay.com/photo/2019/08/11/18/59/ic
 
 export async function POST(request) {
   try {
-    await connect();
+    await dbConnect();
     const { name, email, password } = await request.json();
     const user = await User.findOne(email);
 

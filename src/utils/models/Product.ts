@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const menuItemSchema = new mongoose.Schema({
-  itemName: {
+const productSchema = new mongoose.Schema({
+  name: {
     type: String,
     required: [true, "Please provide a name"],
   },
@@ -42,13 +42,13 @@ const menuItemSchema = new mongoose.Schema({
   { timestamps: true }
 );
 
-menuItemSchema.methods.hasUserPurchased = async function (userId: String) {
+productSchema.methods.hasUserPurchased = async function (userId: String) {
   const Order = mongoose.model("Order");
 
   const hasOrdered = await Order.findOne({
     user: userId,
-    cartMenuItems: this._id,
+    cartProduct: this._id,
   }); return !!hasOrdered;
 }
 
-export const MenuItem = mongoose.models.MenuItem || mongoose.model("MenuItem", menuItemSchema);
+export const Product = mongoose.models.Product || mongoose.model("Product", productSchema);

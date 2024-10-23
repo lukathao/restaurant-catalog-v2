@@ -1,13 +1,13 @@
 import { dbConnect } from "@/utils/config/dbConnection";
 import { NextRequest, NextResponse } from "next/server";
-import { MenuItem } from "@/utils/models/MenuItem";
+import { Product } from "@/utils/models/Product";
 
 export async function GET(req: NextRequest) {
   await dbConnect();
 
   try {
-    const featuredMenuItem = await MenuItem.find({ featured: true });
-    return NextResponse.json(featuredMenuItem);
+    const featuredProduct = await Product.find({ featured: true });
+    return NextResponse.json(featuredProduct);
   } catch (error) {
     return NextResponse.json({ error: "error fetching featured product" }, { status: 500 });
   }
@@ -15,16 +15,16 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest, { params }: any) {
   await dbConnect();
-  const [menuItemId] = params;
+  const [productId] = params;
 
   try {
     //find all products with featured true and set to false
-    const updatedFeaturedMenuItems = await MenuItem.updateMany({ featured: true }, { featured: false });
-    const updateMenuItems = await MenuItem.findByIdAndUpdate(menuItemId, { featured: true }, { new: true });
-    if (!updateMenuItems) {
+    const updatedFeaturedProducts = await Product.updateMany({ featured: true }, { featured: false });
+    const updateProducts = await Product.findByIdAndUpdate(productId, { featured: true }, { new: true });
+    if (!updateProducts) {
       return NextResponse.json({ error: "error updating featured product" }, { status: 500 });
     }
   } catch (error) {
-    return NextResponse.json({ error: "error updating featured menu item" }, { status: 500 });
+    return NextResponse.json({ error: "error updating featured product" }, { status: 500 });
   }
 }
