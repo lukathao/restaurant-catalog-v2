@@ -1,4 +1,4 @@
-import connect from "@/utils/config/dbConnection";
+import { dbConnect } from "@/utils/config/dbConnection"
 import User from "@/utils/models/User";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -27,7 +27,7 @@ const authOptions = {
       async authorize(credentials) {
         const { email, password, name, isRegistering } = credentials;
         try {
-          await connect();
+          await dbConnect();
           let user = await User.findOne(email);
           if (isRegistering) {
             if (user) {
