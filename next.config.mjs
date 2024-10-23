@@ -6,18 +6,41 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   images: {
-    domains: [
-      "res.cloudinary.com",
-      "lh3.googleusercontent.com",
-      "upload.wikimedia.org",
-      "cdn.pixabay.com",
-    ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/account123/**',
+        search: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/account123/**',
+        search: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+        port: '',
+        pathname: '/account123/**',
+        search: '',
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.pixabay.com",
+        port: "",
+        pathname: "/photo/**",
+        search: "",
+      },
+    ]
   },
-  experimental: {
-    serverComponentsExternalPackages: ["mongoose"],
-  },
+  serverExternalPackages: ["mongoose"],
   env: {
     HOST_URL: process.env.NEXT_PUBLIC_HOST_URL,
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "dwli9x328",
@@ -55,3 +78,4 @@ const nextConfig = {
   },
 };
 
+export default nextConfig;

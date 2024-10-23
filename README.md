@@ -1,16 +1,5 @@
-# Sample Hardhat Project
+# Foodiecat readme
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.ts
-```
 ## Getting Started
 
 First, run the development server:
@@ -37,10 +26,27 @@ Do not edit the protobuffer code (*pb.d.ts and pb.js files) directly, instead ed
 make proto
 ```
 
-
-
 ## Deploy on Vercel
 
 ```bash
 vercel
 ```
+
+## Testing
+
+### Page URLs
+* Businesses
+- Brings up full list of restaurants
+- http://localhost:3000/restaurants
+
+* Products
+- Brings up list of products based on business Id
+- http://localhost:3000/restaurants/1/menu
+
+* Add New Product
+- Brings up form for adding new product to a business
+- http://localhost:3000/restaurants/1/menu/addProduct
+
+* Edit Product
+- Edits a product for a business
+- http://localhost:3000/restaurants/1/menu/editProduct/1

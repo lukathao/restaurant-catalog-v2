@@ -12,9 +12,9 @@ const productSchema = new mongoose.Schema({
   price: {
     type: Number,
   },
-  restaurant: {
+  business: {
     type: mongoose.Schema.ObjectId,
-    ref: "Restaurant",
+    ref: "Business",
   },
   reviews: [
     {

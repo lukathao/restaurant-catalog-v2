@@ -2,10 +2,10 @@ import { dbConnect } from "@/utils/config/dbConnection";
 import { NextRequest, NextResponse } from "next/server";
 import { Product } from "@/utils/models/Product";
 
-export async function GET(req: NextRequest, { params }: any) {
+export async function GET(req: NextRequest) {
   await dbConnect();
-
-  const [productId] = params;
+  const params = await req.json();
+  const [productId] = params["id"];
 
   try {
     const product = await Product.findById(productId);
@@ -21,9 +21,10 @@ export async function GET(req: NextRequest, { params }: any) {
   }
 }
 
-export async function PUT(req: NextRequest, { params }: any) {
+export async function PUT(req: NextRequest) {
   await dbConnect();
-  const [productId] = params;
+  const params = await req.json();
+  const [productId] = params["id"];
   const body = await req.json();
 
   try {
@@ -42,9 +43,10 @@ export async function PUT(req: NextRequest, { params }: any) {
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: any) {
+export async function DELETE(req: NextRequest) {
   await dbConnect();
-  const [productId] = params;
+  const params = await req.json();
+  const [productId] = params["id"];
 
   try {
     const deletedProduct = await Product.findByIdAndUpdate(productId, { isActive: false }, {
