@@ -14,7 +14,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
         port: '',
-        pathname: '/account123/**',
+        pathname: `/dwli9x328/**`,
         search: '',
       },
       {
@@ -26,9 +26,9 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'upload.wikimedia.org',
+        hostname: 'media.istockphoto.com',
         port: '',
-        pathname: '/account123/**',
+        pathname: '/id/**',
         search: '',
       },
       {
@@ -44,6 +44,7 @@ const nextConfig = {
   env: {
     HOST_URL: process.env.NEXT_PUBLIC_HOST_URL,
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "dwli9x328",
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
     NEXT_PUBLIC_CLOUDINARY_PRESET_NAME: "foodiecatpreset",
   },
   webpack: (config) => {

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { CldUploadButton } from "next-cloudinary";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 
 const CreateBusiness = () => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const router = useRouter();
   const [imageUrl, setImageUrl] = useState(
     "https://cdn.pixabay.com/photo/2022/02/10/05/45/lantern-7004643_1280.jpg"

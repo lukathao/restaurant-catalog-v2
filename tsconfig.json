@@ -42,10 +42,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "custom.d.ts",
-    "src/app/api/auth/[...nextauth]/route.js",
-    "src/app/api/register/route.js",
-    "src/app/login/page.jsx",
-    "src/app/signup/page.jsx",
+    "**/*.js",
+    "**/*.jsx",
   ],
   "exclude": [
     "node_modules"

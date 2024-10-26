@@ -5,7 +5,7 @@ import Business from "@/utils/models/Business";
 export async function GET() {
   await dbConnect();
   try {
-    const businesses = await Business.find({}).select('name logo');
+    const businesses = await Business.find({}).select('name owner logo');
     if (!businesses) {
       return NextResponse.json(
         { error: "Businesses not found" },

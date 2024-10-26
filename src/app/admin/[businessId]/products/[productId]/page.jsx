@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { useSession } from "next-auth/react";
+import React, { useState, useEffect } from "react";
+// import { useSession } from "next-auth/react";
 import { CldUploadButton } from "next-cloudinary";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -9,26 +9,39 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
 
-const Create = (businessId) => {
-  const { data: session } = useSession();
+const EditProduct = ({ params }) => {
+  const { productId } = params;
   const router = useRouter();
-
-  const [imageUrls, setImageUrls] = useState([
-
-  ]);
-
+  const [imageUrls, setImageUrls] = useState([]);
   const [product, setProduct] = useState({
-    name: "eggrolls",
-    description: "nice and delicious",
-    image: [],
-    price: 4.99,
-    business: businessId,
+    name: "",
+    description: "No product loaded",
+    images: [],
+    price: 0,
   });
+
+  const fetchProduct = async () => {
+    try {
+      const res = await axios.get(`/api/product/${productId}`);
+      const fetchedProduct = res.data;
+      setProduct(fetchedProduct);
+      setImageUrls(fetchedProduct.images);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (productId) {
+      fetchProduct();
+    }
+  }, [productId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct((prevState) => ({
-      ...prevState, [name]: value
+      ...prevState,
+      [name]: value,
     }));
   };
 
@@ -37,42 +50,54 @@ const Create = (businessId) => {
       const newUrl = result.info.secure_url;
       setImageUrls((prevUrls) => [...prevUrls, newUrl]);
     }
-  }
-
-
-  const handleRemoveImage = (e) => {
+  };
+  const handleRemoveImage = (e, urlToRemove) => {
     e.preventDefault();
     setImageUrls((prevUrls) => prevUrls.filter((url) => url !== urlToRemove));
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (imageUrls.length > 0) {
       try {
         const productData = {
-          ...product, images: imageUrls
+          ...product,
+          images: imageUrls,
         };
-        const productRes = await axios.post("/api/product", productData);
-        if (productRes.status === 200 || productRes.status === 201) {
-          router.push("/")
+        console.log(productData);
+
+        const productRes = await axios.put(
+          `/api/product/${productId}`,
+          productData
+        );
+        if (productRes.status === 200) {
+          router.push("/products");
         }
       } catch (error) {
         console.log(error);
-
       }
     }
-  }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const res = await axios.delete(`/api/product/${productId}`);
+      if (res.status === 200) {
+        router.push("/products");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
-        <div className="bg-foodOrange py-6">
-          <span>
-            <h1 className="text-center text-white text-3xl font-extrabold">
-              NEW ITEM {restaurantId}
-            </h1>
-          </span>
-
+        <div className="bg-blue-600 py-6">
+          <h1 className="text-center text-white text-3xl font-extrabold">
+            Edit {productId}
+          </h1>
         </div>
         <form onSubmit={handleSubmit} className="px-8 py-10 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -86,7 +111,7 @@ const Create = (businessId) => {
                 id="name"
                 value={product.name}
                 onChange={handleChange}
-                placeholder="Enter product name"
+                placeholder="Enter name"
                 className="w-full"
                 required
               />
@@ -103,7 +128,7 @@ const Create = (businessId) => {
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   options={{ multiple: true }}
                   uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME}
-                  onSuccessAction={handleUpload}
+                  onSuccess={handleUpload}
                 >
                   {imageUrls.length > 0 ? "Add More Images" : "Upload Images"}
                 </CldUploadButton>
@@ -141,6 +166,7 @@ const Create = (businessId) => {
               ))}
             </div>
           </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Description
@@ -160,7 +186,7 @@ const Create = (businessId) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Sale Price
+                Price
               </label>
               <Input
                 type="number"
@@ -175,13 +201,20 @@ const Create = (businessId) => {
             </div>
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex justify-between">
             <Button
               variant="foodiecat"
               type="submit"
               className="px-8 py-3 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
-              Submit Product
+              Update
+            </Button>
+            <Button
+              onClick={handleDelete}
+              variant="destructive"
+              className="px-8 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            >
+              Delete Product
             </Button>
           </div>
         </form>
@@ -190,4 +223,4 @@ const Create = (businessId) => {
   );
 };
 
-export default Create;
+export default EditProduct;
