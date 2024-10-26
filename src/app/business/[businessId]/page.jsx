@@ -5,15 +5,17 @@ import LoadingErrorComponent from "@/components/loader/LoadingErrorComponent";
 import Image from "next/image";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, } from "@/components/ui/dialog";
 
-const ProductDialog = ({ product, open, setOpen }) => {
+const ProductDialog = ({ product, open, setOpen, isMounted }) => {
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <Dialog open={open} onOpenChange={() => setOpen(false)}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            <div className="text-l font-semibold text-gray-800 mb-1 pl-1 float-left">
-              {product.name} - ${product.price}
-            </div>
+          <DialogTitle className="text-xl font-bold text-gray-800 mb-1 pl-1 float-left">
+            {product.name} - ${product.price}
           </DialogTitle>
           <DialogDescription>
             <Image
@@ -52,13 +54,12 @@ const BusinessProducts = ({ params }) => {
 
   const { businessId } = use(params);
   const [business, setBusiness] = useState("");
-  const [dialogProduct, setDialogProduct] = useState(dialogProductInitial);
+  const [dialogProduct, setDialogProduct] = useState(null);
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [loading, setLoading] = useState(true);
-
-
+  const [isMounted, setIsMounted] = useState(false);
 
   const handleSubmit = async () => {
     if (isSearching) {
@@ -71,7 +72,7 @@ const BusinessProducts = ({ params }) => {
       if (res.status === 200 || res.status === 201) {
         const data = transformImages(res.data);
         setProducts(res.data);
-        setBusiness(res.data[0].business.name)
+        setBusiness(res.data[0].business.name);
       }
     } catch (error) {
       console.log(error);
@@ -83,8 +84,9 @@ const BusinessProducts = ({ params }) => {
 
   useEffect(() => {
     handleSubmit();
+    setDialogProduct(dialogProductInitial);
+    setIsMounted(true);
   }, []);
-
 
   if (loading) {
     return <LoadingErrorComponent loading={true} />;
@@ -92,44 +94,37 @@ const BusinessProducts = ({ params }) => {
 
   return (
     <div className="min-h-screen p-8 z-10">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center text-black z-10">
-          {business}
-        </h1>
-        {(!products || products.length === 0) ? (
-          <p className="text-center text-gray-600">No products found.</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-            {products.map((product) => (
-              <>
-                <div
-                  key={product._id}
-                  onClick={() => { setOpen(true); setDialogProduct(product) }}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl relative"
-                >
-                  <Image
-                    width={500}
-                    height={200}
-                    alt={product.name}
-                    src={product.image || "https://cdn.pixabay.com/photo/2015/09/13/21/13/dishes-938747_1280.jpg"}
-                  ></Image>
-                  <div className="p-0">
-                    <h3 className="text-l font-semibold text-gray-800 mb-1 pl-5 float-left">
-                      {product.name}
-                    </h3>
-                    <h3 className="text-l font-semibold text-gray-800 mb-1 pr-5 float-right">
-                      {product.price}
-                    </h3>
-                  </div>
-                </div >
-                <ProductDialog product={dialogProduct} open={open} setOpen={setOpen} />
-
-              </>
-            ))}
-          </div>
-        )}
+      <h1 className="text-4xl font-bold mb-8 text-center text-black z-10">
+        {business}
+      </h1>
+      <div key={0} className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+        {products.map((product) => (
+          <>
+            <div
+              key={product._id}
+              onClick={() => { setOpen(true); setDialogProduct(product) }}
+              className="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl relative"
+            >
+              <Image
+                width={500}
+                height={200}
+                alt={product.name}
+                src={product.image || "https://cdn.pixabay.com/photo/2015/09/13/21/13/dishes-938747_1280.jpg"}
+              />
+              <div className="p-0">
+                <h3 className="text-l font-semibold text-gray-800 mb-1 pl-5 float-left">
+                  {product.name}
+                </h3>
+                <h3 className="text-l font-semibold text-gray-800 mb-1 pr-5 float-right">
+                  {product.price}
+                </h3>
+              </div>
+            </div >
+            <ProductDialog product={dialogProduct} open={open} setOpen={setOpen} isMounted={isMounted} />
+          </>
+        ))}
       </div>
-    </div >
+    </div>
   );
 };
 
