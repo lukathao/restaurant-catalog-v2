@@ -89,37 +89,37 @@ const BusinessProducts = ({ params }) => {
         {(appetizers && appetizers.length > 0) ? (
           <div key="appetizers">
             <div>appetizers</div>
-            {appetizers.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+            {appetizers.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(entrees && entrees.length > 0) ? (
           <div key="entrees">
             <div>entrees</div>
-            {entrees.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+            {entrees.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(desserts && desserts.length > 0) ? (
           <div key="desserts">
             <div>desserts</div>
-            {desserts.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+            {desserts.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(drinks && drinks.length > 0) ? (
           <div key="drinks">
             <div>drinks</div>
-            {drinks.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+            {drinks.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(others && others.length > 0) ? (
           <div key="others">
             <div>others</div>
-            {others.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+            {others.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(party && party.length > 0) ? (
           <div key="party">
             <div>party platters</div>
-            {party.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+            {party.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
       </div>
