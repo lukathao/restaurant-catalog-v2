@@ -4,11 +4,12 @@ import { Product } from "@/utils/models/Product";
 import Business from "@/utils/models/Business";
 
 export async function GET(req: NextRequest) {
-  await dbConnect();
+
   const param = await req.json();
   const [businessId] = param["id"];
 
   try {
+    await dbConnect();
     const products = await Product.find({ business: businessId }).select('name price');
     const business = await Business.findById(businessId).select('name');
     if (!products) {
@@ -33,6 +34,7 @@ export async function POST(req: NextRequest) {
     image,
     price,
     business,
+    productType
   } = body;
 
   const newProduct = await Product.create({
@@ -41,6 +43,7 @@ export async function POST(req: NextRequest) {
     image,
     price,
     business,
+    productType
   });
 
   console.log("new product created: ", newProduct);

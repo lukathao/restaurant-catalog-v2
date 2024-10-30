@@ -13,12 +13,22 @@ const AdminBusiness = ({ params }) => {
       <div>Individual Business Admin for {businessId}</div>
 
       <div
-        className="bg-foodOrange w-fit px-2 py-2 text-white text-xl font-bold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-        <Link
-          href={`/admin/${businessId}/products`}
-        >
-          Edit Products
-        </Link>
+        className="w-fit text-white text-xl display-inline font-bold">
+        <div className='rounded-md bg-foodOrange m-2 p-2 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>
+          <Link
+            href={`/admin/${businessId}/products`}
+          >
+            Edit Products
+          </Link>
+        </div>
+        <div className='rounded-md bg-foodOrange m-2 p-2 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>
+          <Link
+            href={`/admin/${businessId}/products/add`}
+          >
+            Add Product
+          </Link>
+        </div>
+
       </div>
 
 

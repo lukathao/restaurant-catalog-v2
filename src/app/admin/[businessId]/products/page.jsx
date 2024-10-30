@@ -17,11 +17,10 @@ const transformImages = (resProducts) => {
   return resProducts;
 }
 
-const EditProductButton = ({ productId }) => {
+const EditProductButton = ({ businessId, productId }) => {
   const router = useRouter();
-  // TODO handle this
   const handleEdit = () => {
-    // router.push(`/editProduct/${productId}`);
+    router.push(`products/${productId}`);
   };
   return (
     <Button
@@ -41,7 +40,6 @@ const ProductAdminHome = ({ params }) => {
   const [products, setProducts] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
   const router = useRouter();
 
   const handleSubmit = async () => {
@@ -50,7 +48,6 @@ const ProductAdminHome = ({ params }) => {
     }
     setIsSearching(true);
     setLoading(true);
-    // setError(null);
     try {
       const res = await axios.post('/api/product/products', { businessId });
       if (res.status === 200 || res.status === 201) {
@@ -74,9 +71,6 @@ const ProductAdminHome = ({ params }) => {
   if (loading) {
     return <LoadingErrorComponent loading={true} />;
   }
-  // if (error) {
-  //   return <LoadingErrorComponent error={error} />;
-  // }
 
   return (
     <div className="min-h-screen p-8 z-10">

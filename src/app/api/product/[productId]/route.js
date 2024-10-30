@@ -1,13 +1,14 @@
 import { dbConnect } from "@/utils/config/dbConnection";
 import { NextRequest, NextResponse } from "next/server";
 import { Product } from "@/utils/models/Product";
+import mongoose from "mongoose";
 
-export async function GET(req: NextRequest) {
-  await dbConnect();
+export async function GET(req) {
   const params = await req.json();
-  const [productId] = params["id"];
+  const productId = new mongoose.Types.ObjectId(`${params["_id"]}`);
 
   try {
+    await dbConnect();
     const product = await Product.findById(productId);
     if (!product) {
       return NextResponse.json(
@@ -21,14 +22,13 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function PUT(req: NextRequest) {
-  await dbConnect();
+export async function PUT(req) {
   const params = await req.json();
-  const [productId] = params["id"];
-  const body = await req.json();
+  const productId = new mongoose.Types.ObjectId(`${params["_id"]}`);
 
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(productId, body, {
+    await dbConnect();
+    const updatedProduct = await Product.findByIdAndUpdate(productId, params, {
       new: true, runValidators: true,
     });
     if (!updatedProduct) {
@@ -43,12 +43,12 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
-  await dbConnect();
+export async function DELETE(req) {
   const params = await req.json();
-  const [productId] = params["id"];
+  const productId = new mongoose.Types.ObjectId(`${params["_id"]}`);
 
   try {
+    await dbConnect();
     const deletedProduct = await Product.findByIdAndUpdate(productId, { isActive: false }, {
       returnOriginal: false
     });

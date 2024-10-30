@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 
   try {
     await dbConnect();
-    const products = await Product.find({ business: businessId }).select('name price business description image').populate('business', 'name');
+    const products = await Product.find({ business: businessId }).select('name price business description image productType').populate('business', 'name');
     if (!products || products.length === 0) {
       return NextResponse.json(
         { error: "Products not found" },

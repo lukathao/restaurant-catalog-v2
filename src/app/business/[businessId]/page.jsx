@@ -1,39 +1,9 @@
 "use client";
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, use, useReducer } from "react";
 import axios from "axios";
 import LoadingErrorComponent from "@/components/loader/LoadingErrorComponent";
-import Image from "next/image";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, } from "@/components/ui/dialog";
+import ProductSections from "@/components/productsections/productsections";
 
-const ProductDialog = ({ product, open, setOpen, isMounted }) => {
-  if (!isMounted) {
-    return null;
-  }
-
-  return (
-    <Dialog open={open} onOpenChange={() => setOpen(false)}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-gray-800 mb-1 pl-1 float-left">
-            {product.name} - ${product.price}
-          </DialogTitle>
-          <DialogDescription>
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={700}
-              height={700}
-              className="w-screen"
-            />
-            <div>
-              {product.description}
-            </div>
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
-  );
-};
 
 const transformImages = (resProducts) => {
   resProducts.map((p) => {
@@ -45,21 +15,18 @@ const transformImages = (resProducts) => {
 }
 
 const BusinessProducts = ({ params }) => {
-  const dialogProductInitial = {
-    name: "",
-    image: "",
-    description: "",
-    price: 0
-  }
-
   const { businessId } = use(params);
   const [business, setBusiness] = useState("");
-  const [dialogProduct, setDialogProduct] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [products, setProducts] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
+  // TODO look into useReduce
+  const [appetizers, setAppetizers] = useState([]);
+  const [desserts, setDesserts] = useState([]);
+  const [entrees, setEntrees] = useState([]);
+  const [drinks, setDrinks] = useState([]);
+  const [party, setParty] = useState([]);
+  const [others, setOthers] = useState([]);
 
   const handleSubmit = async () => {
     if (isSearching) {
@@ -71,8 +38,8 @@ const BusinessProducts = ({ params }) => {
       const res = await axios.post('/api/product/products', { businessId });
       if (res.status === 200 || res.status === 201) {
         const data = transformImages(res.data);
-        setProducts(res.data);
         setBusiness(res.data[0].business.name);
+        sortProductsByType(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -82,9 +49,30 @@ const BusinessProducts = ({ params }) => {
     }
   };
 
+  const sortProductsByType = (products) => {
+    let appetizers, entrees, desserts, drinks, party, others = [];
+    appetizers = products.filter(product => product.productType === "appetizer");
+    entrees = products.filter(product => product.productType === "entree");
+    desserts = products.filter(product => product.productType === "dessert");
+    drinks = products.filter(product => product.productType === "drink");
+    party = products.filter(product => product.productType === "party");
+    others = products.filter(product => product.productType === "other");
+    console.log(appetizers);
+    console.log(entrees);
+    console.log(desserts);
+    console.log(drinks);
+    console.log(party);
+    console.log(others);
+    setAppetizers(appetizers);
+    setEntrees(entrees);
+    setDesserts(desserts);
+    setDrinks(drinks);
+    setParty(party);
+    setOthers(others);
+  }
+
   useEffect(() => {
     handleSubmit();
-    setDialogProduct(dialogProductInitial);
     setIsMounted(true);
   }, []);
 
@@ -98,31 +86,42 @@ const BusinessProducts = ({ params }) => {
         {business}
       </h1>
       <div key={0} className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-        {products.map((product) => (
-          <>
-            <div
-              key={product._id}
-              onClick={() => { setOpen(true); setDialogProduct(product) }}
-              className="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl relative"
-            >
-              <Image
-                width={500}
-                height={200}
-                alt={product.name}
-                src={product.image || "https://cdn.pixabay.com/photo/2015/09/13/21/13/dishes-938747_1280.jpg"}
-              />
-              <div className="p-0">
-                <h3 className="text-l font-semibold text-gray-800 mb-1 pl-5 float-left">
-                  {product.name}
-                </h3>
-                <h3 className="text-l font-semibold text-gray-800 mb-1 pr-5 float-right">
-                  {product.price}
-                </h3>
-              </div>
-            </div >
-            <ProductDialog product={dialogProduct} open={open} setOpen={setOpen} isMounted={isMounted} />
-          </>
-        ))}
+        {(appetizers && appetizers.length > 0) ? (
+          <div key="appetizers">
+            <div>appetizers</div>
+            {appetizers.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+          </div>
+        ) : null}
+        {(entrees && entrees.length > 0) ? (
+          <div key="entrees">
+            <div>entrees</div>
+            {entrees.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+          </div>
+        ) : null}
+        {(desserts && desserts.length > 0) ? (
+          <div key="desserts">
+            <div>desserts</div>
+            {desserts.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+          </div>
+        ) : null}
+        {(drinks && drinks.length > 0) ? (
+          <div key="drinks">
+            <div>drinks</div>
+            {drinks.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+          </div>
+        ) : null}
+        {(others && others.length > 0) ? (
+          <div key="others">
+            <div>others</div>
+            {others.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+          </div>
+        ) : null}
+        {(party && party.length > 0) ? (
+          <div key="party">
+            <div>party platters</div>
+            {party.map((product) => (<ProductSections product={product} isMounted={isMounted} />))}
+          </div>
+        ) : null}
       </div>
     </div>
   );

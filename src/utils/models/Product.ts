@@ -41,6 +41,10 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  productType: {
+    type: String,
+    default: "entree",
+  }
 },
   { timestamps: true }
 );
