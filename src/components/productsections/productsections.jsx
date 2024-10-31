@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, } from "@/components/ui/dialog";
 import Image from "next/image";
+import { Outfit } from "next/font/google";
+
+const ProductFont = Outfit({
+  weight: ['400'],
+  subsets: ["latin"],
+  style: "normal",
+});
 
 
 const ProductSections = ({ product, isMounted, key }) => {
@@ -34,11 +41,11 @@ const ProductSections = ({ product, isMounted, key }) => {
           alt={product.name}
           src={product.image || "https://cdn.pixabay.com/photo/2015/09/13/21/13/dishes-938747_1280.jpg"}
         />
-        <div className="p-0">
-          <h3 className="text-l font-semibold text-gray-800 mb-1 pl-5 float-left">
+        <div className={`p-0 text-xl font-bold text-gray-800 ${ProductFont.className}`}>
+          <h3 className="pl-5 float-left">
             {product.name}
           </h3>
-          <h3 className="text-l font-semibold text-gray-800 mb-1 pr-5 float-right">
+          <h3 className="pr-5 float-right">
             {product.price}
           </h3>
         </div>

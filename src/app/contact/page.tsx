@@ -16,18 +16,14 @@ const ContactPage = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
       {/* Hero Section */}
-      <header className="bg-blue-600 text-white">
-        <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            Contact FoodieCat
-          </h1>
-
+      <header className="bg-foodOrange text-white">
+        <div className="container mx-auto px-4 py-4 text-center">
           <Image
-            width={800}
-            height={400}
+            width={100}
+            height={100}
             src="/logo.png"
             alt="foodiecat logo"
-            className="rounded-lg shadow-lg mx-auto"
+            className="mx-auto"
           />
         </div>
       </header>

@@ -84,6 +84,7 @@
   }
 
   body {
+    background-image: url("/background.svg");
     background-color: #FFA500;
     /* Assuming you want a pure black background */
     /* background-image: radial-gradient(circle, #9f9f9f 0px, transparent 1px),

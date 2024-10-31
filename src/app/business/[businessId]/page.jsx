@@ -3,7 +3,19 @@ import React, { useState, useEffect, use, useReducer } from "react";
 import axios from "axios";
 import LoadingErrorComponent from "@/components/loader/LoadingErrorComponent";
 import ProductSections from "@/components/productsections/productsections";
+import { Pattaya, Lexend_Zetta } from "next/font/google";
 
+const HeaderFont = Pattaya({
+  weight: ['400'],
+  subsets: ["latin"],
+  style: "normal",
+});
+
+const BusinessFont = Lexend_Zetta({
+  weight: ['400'],
+  subsets: ["latin"],
+  style: "normal",
+});
 
 const transformImages = (resProducts) => {
   resProducts.map((p) => {
@@ -57,12 +69,6 @@ const BusinessProducts = ({ params }) => {
     drinks = products.filter(product => product.productType === "drink");
     party = products.filter(product => product.productType === "party");
     others = products.filter(product => product.productType === "other");
-    console.log(appetizers);
-    console.log(entrees);
-    console.log(desserts);
-    console.log(drinks);
-    console.log(party);
-    console.log(others);
     setAppetizers(appetizers);
     setEntrees(entrees);
     setDesserts(desserts);
@@ -82,43 +88,44 @@ const BusinessProducts = ({ params }) => {
 
   return (
     <div className="min-h-screen p-8 z-10">
-      <h1 className="text-4xl font-bold mb-8 text-center text-black z-10">
+      <h1 className={`text-4xl font-bold mb-4 text-center text-black uppercase ${BusinessFont.className}`}>
         {business}
       </h1>
+      <hr className="w-1/2 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700" />
       <div key={0} className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
         {(appetizers && appetizers.length > 0) ? (
           <div key="appetizers">
-            <div>appetizers</div>
+            <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Appetizers</div>
             {appetizers.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(entrees && entrees.length > 0) ? (
           <div key="entrees">
-            <div>entrees</div>
+            <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Entrees</div>
             {entrees.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(desserts && desserts.length > 0) ? (
           <div key="desserts">
-            <div>desserts</div>
+            <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Desserts</div>
             {desserts.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(drinks && drinks.length > 0) ? (
           <div key="drinks">
-            <div>drinks</div>
+            <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Drinks</div>
             {drinks.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(others && others.length > 0) ? (
           <div key="others">
-            <div>others</div>
+            <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Others</div>
             {others.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(party && party.length > 0) ? (
           <div key="party">
-            <div>party platters</div>
+            <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Party Platters</div>
             {party.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
