@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import StickyHeader from "./components/header/header.component";
-import StickyFooter from "./components/footer/footer.component";
 import Script from "next/script";
 import { Suspense } from "react";
+import Overlay from "@/components/overlay/overlay";
+import LoadingErrorComponent from "@/components/loader/LoadingErrorComponent";
+// import SessionWrapper from "@/components/session/SessionWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // <SessionWrapper>
     <html lang="en">
       <head>
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-6S1GHQLBHE"></Script>
@@ -35,16 +37,19 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <div className="flex flex-col h-screen justify-between">
-          <StickyHeader />
+          {/* <StickyHeader /> */}
           <main>
-            <Suspense fallback={<div>Loading...</div>}>
-              {children}
-            </Suspense>
+            <div className="absolute w-full h-full">
+              <Suspense fallback={<LoadingErrorComponent loading={true} error={null} />}>
+                {children}
+              </Suspense>
+            </div>
+            {/* <Overlay /> */}
           </main>
-          <StickyFooter />
+          {/* <StickyFooter /> */}
         </div>
-
       </body>
     </html>
+    // </SessionWrapper>
   );
 }

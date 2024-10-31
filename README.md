@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Foodiecat readme
 
 ## Getting Started
 
@@ -26,10 +26,27 @@ Do not edit the protobuffer code (*pb.d.ts and pb.js files) directly, instead ed
 make proto
 ```
 
-
-
 ## Deploy on Vercel
 
 ```bash
 vercel
 ```
+
+## Testing
+
+### Page URLs
+* Businesses
+- Brings up full list of restaurants
+- http://localhost:3000/restaurants
+
+* Products
+- Brings up list of products based on business Id
+- http://localhost:3000/restaurants/1/menu
+
+* Add New Product
+- Brings up form for adding new product to a business
+- http://localhost:3000/restaurants/1/menu/addProduct
+
+* Edit Product
+- Edits a product for a business
+- http://localhost:3000/restaurants/1/menu/editProduct/1
