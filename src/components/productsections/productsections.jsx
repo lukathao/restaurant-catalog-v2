@@ -66,9 +66,9 @@ const ProductDialog = ({ product, open, setOpen, isMounted }) => {
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(false)}>
-      <DialogContent>
+      <DialogContent className='bg-slate-200 p-0 m-0'>
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-gray-800 mb-1 pl-1 float-left">
+          <DialogTitle className="text-xl font-bold text-gray-800 mb-1 pl-1">
             {product.name} - ${product.price}
           </DialogTitle>
           <DialogDescription>
@@ -82,7 +82,6 @@ const ProductDialog = ({ product, open, setOpen, isMounted }) => {
                 className="w-screen"
               />
             }
-
             <div>
               {product.description}
             </div>
