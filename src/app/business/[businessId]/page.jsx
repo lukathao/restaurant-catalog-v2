@@ -19,9 +19,15 @@ const BusinessFont = Lexend_Zetta({
 
 const transformImages = (resProducts) => {
   resProducts.map((p) => {
-    const splitUri = p.image.split('/upload/');
-    const imageTransformationParams = '/upload/c_auto,g_center,w_500,h_300/';
-    p.image = splitUri[0] + imageTransformationParams + splitUri[1];
+    try {
+      if (p.image) {
+        const splitUri = p.image.split('/upload/');
+        const imageTransformationParams = '/upload/c_auto,g_center,w_500,h_300/';
+        p.image = splitUri[0] + imageTransformationParams + splitUri[1];
+      }
+    } catch (error) {
+      console.log(error);
+    }
   });
   return resProducts;
 }
@@ -39,6 +45,7 @@ const BusinessProducts = ({ params }) => {
   const [drinks, setDrinks] = useState([]);
   const [party, setParty] = useState([]);
   const [others, setOthers] = useState([]);
+  const [featured, setFeatured] = useState([]);
 
   const handleSubmit = async () => {
     if (isSearching) {
@@ -62,13 +69,16 @@ const BusinessProducts = ({ params }) => {
   };
 
   const sortProductsByType = (products) => {
-    let appetizers, entrees, desserts, drinks, party, others = [];
+    let appetizers, entrees, desserts, drinks, party, others, featured = [];
+    featured = products.filter(product => product.featured);
     appetizers = products.filter(product => product.productType === "appetizer");
     entrees = products.filter(product => product.productType === "entree");
     desserts = products.filter(product => product.productType === "dessert");
     drinks = products.filter(product => product.productType === "drink");
     party = products.filter(product => product.productType === "party");
     others = products.filter(product => product.productType === "other");
+    console.log(featured);
+    setFeatured(featured);
     setAppetizers(appetizers);
     setEntrees(entrees);
     setDesserts(desserts);

@@ -34,7 +34,8 @@ export async function POST(req: NextRequest) {
     image,
     price,
     business,
-    productType
+    productType,
+    featured
   } = body;
 
   const newProduct = await Product.create({
@@ -43,7 +44,8 @@ export async function POST(req: NextRequest) {
     image,
     price,
     business,
-    productType
+    productType,
+    featured
   });
 
   console.log("new product created: ", newProduct);
