@@ -11,7 +11,6 @@ const ProductFont = Outfit({
 
 
 const ProductSections = ({ product, isMounted, productId }) => {
-  console.log(product);
   const [dialogProduct, setDialogProduct] = useState(null);
   const [open, setOpen] = useState(false);
 
