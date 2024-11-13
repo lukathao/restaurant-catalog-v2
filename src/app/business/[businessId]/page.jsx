@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 "use client";
 import React, { useState, useEffect, use, useReducer } from "react";
 import axios from "axios";
@@ -106,37 +107,37 @@ const BusinessProducts = ({ params }) => {
         {(appetizers && appetizers.length > 0) ? (
           <div key="appetizers">
             <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Appetizers</div>
-            {appetizers.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
+            {appetizers.map((product) => (<ProductSections productId={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(entrees && entrees.length > 0) ? (
           <div key="entrees">
             <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Entrees</div>
-            {entrees.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
+            {entrees.map((product) => (<ProductSections productId={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(desserts && desserts.length > 0) ? (
           <div key="desserts">
             <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Desserts</div>
-            {desserts.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
+            {desserts.map((product) => (<ProductSections productId={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(drinks && drinks.length > 0) ? (
           <div key="drinks">
             <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Drinks</div>
-            {drinks.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
+            {drinks.map((product) => (<ProductSections productId={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(others && others.length > 0) ? (
           <div key="others">
             <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Others</div>
-            {others.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
+            {others.map((product) => (<ProductSections productId={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
         {(party && party.length > 0) ? (
           <div key="party">
             <div className={`text-4xl font-bold flex items-center justify-center ${HeaderFont.className}`}>Party Platters</div>
-            {party.map((product) => (<ProductSections key={product._id} product={product} isMounted={isMounted} />))}
+            {party.map((product) => (<ProductSections productId={product._id} product={product} isMounted={isMounted} />))}
           </div>
         ) : null}
       </div>
