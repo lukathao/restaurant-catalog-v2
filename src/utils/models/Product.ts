@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    default: "https://cdn.pixabay.com/photo/2015/09/13/21/13/dishes-938747_1280.jpg",
+    default: null,
   },
   price: {
     type: Number,

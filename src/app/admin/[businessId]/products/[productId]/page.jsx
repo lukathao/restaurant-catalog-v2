@@ -19,20 +19,21 @@ const EditProduct = ({ params }) => {
     price: 0,
     productType: "",
     _id: "",
+    featured: false,
   });
 
-  const fetchProduct = async () => {
-    try {
-      const res = await axios.post('/api/product/edit', { productId });
-      const fetchedProduct = res.data;
-      setProduct(fetchedProduct);
-      setImageUrl(fetchedProduct.image);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.post('/api/product/edit', { productId });
+        const fetchedProduct = res.data;
+        setProduct(fetchedProduct);
+        setImageUrl(fetchedProduct.image);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     if (productId) {
       fetchProduct();
     }
@@ -46,12 +47,22 @@ const EditProduct = ({ params }) => {
     }));
   };
 
+  const handleFeatured = (e) => {
+    const { checked } = e.target;
+    if (checked) {
+      product.featured = true;
+    } else {
+      product.featured = false;
+    }
+  }
+
   const handleUpload = (result) => {
     if (result.event === "success") {
       const newUrl = result.info.secure_url;
       setImageUrl(newUrl);
     }
   };
+
   const handleRemoveImage = (e) => {
     e.preventDefault();
     setImageUrl(null);
@@ -65,6 +76,7 @@ const EditProduct = ({ params }) => {
         ...product,
         image: imageUrl,
       };
+      console.log(productData);
       const productRes = await axios.put(
         `/api/product/${productId}`,
         productData
@@ -77,7 +89,6 @@ const EditProduct = ({ params }) => {
     } catch (error) {
       console.log(error);
     }
-
   };
 
   const handleDelete = async () => {
@@ -94,7 +105,7 @@ const EditProduct = ({ params }) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
-        <div className="bg-blue-600 py-6">
+        <div className="bg-foodOrange py-6">
           <h1 className="text-center text-white text-3xl font-extrabold">
             Edit {product.name}
           </h1>
@@ -134,33 +145,35 @@ const EditProduct = ({ params }) => {
               </div>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-              <div className="relative group">
-                <Image
-                  height={500}
-                  width={500}
-                  className="h-24 w-full object-cover rounded-md"
-                  src={imageUrl}
-                  alt={`Uploaded image`}
-                />
-                <button
-                  className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-md"
-                  onClick={(e) => handleRemoveImage(e)}
-                >
-                  <svg
-                    className="h-6 w-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+              {imageUrl &&
+                <div className="relative group">
+                  <Image
+                    height={500}
+                    width={500}
+                    className="h-24 w-full object-cover rounded-md"
+                    src={imageUrl}
+                    alt={`Uploaded image`}
+                  />
+                  <button
+                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-md"
+                    onClick={(e) => handleRemoveImage(e)}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
+                    <svg
+                      className="h-6 w-6 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              }
             </div>
           </div>
 
@@ -189,7 +202,7 @@ const EditProduct = ({ params }) => {
               id="productType"
               value={product.productType}
               onChange={handleChange}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+              className="mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
               required
             >
               <option value="">Select a type</option>
@@ -200,6 +213,16 @@ const EditProduct = ({ params }) => {
               <option value="party">Party</option>
               <option value="other">Other</option>
             </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Featured
+            </label>
+            <input
+              type="checkbox"
+              defaultChecked={product.featured}
+              onChange={handleFeatured}
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

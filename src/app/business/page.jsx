@@ -10,10 +10,18 @@ import Link from "next/link"
 
 
 const transformImages = (resProducts) => {
+  console.log(resProducts);
   resProducts.map((p) => {
-    const splitUri = p.image.split('/upload/');
-    const imageTransformationParams = '/upload/c_auto,g_center,w_500,h_300/';
-    p.image = splitUri[0] + imageTransformationParams + splitUri[1];
+    try {
+      console.log(p)
+      if (p.image != null) {
+        const splitUri = p.image.split('/upload/');
+        const imageTransformationParams = '/upload/c_auto,g_center,w_500,h_300/';
+        p.image = splitUri[0] + imageTransformationParams + splitUri[1];
+      }
+    } catch (error) {
+      console.log(error);
+    }
   });
   return resProducts;
 }
@@ -98,7 +106,7 @@ const Businesses = () => {
                     height={200}
                     alt={business.name}
                     src={business.logo || "/business_default.jpg"}
-                  ></Image>
+                  />
                   <div className="p-2">
                     <h3 className="text-xl font-semibold text-gray-800 mb-1 pl-5 float-left">
                       {business.name}

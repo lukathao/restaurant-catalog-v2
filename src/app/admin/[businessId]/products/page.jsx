@@ -10,9 +10,13 @@ import Image from "next/image";
 
 const transformImages = (resProducts) => {
   resProducts.map((p) => {
-    const splitUri = p.image.split('/upload/');
-    const imageTransformationParams = '/upload/c_auto,g_center,w_500,h_300/';
-    p.image = splitUri[0] + imageTransformationParams + splitUri[1];
+    try {
+      const splitUri = p.image.split('/upload/');
+      const imageTransformationParams = '/upload/c_auto,g_center,w_500,h_300/';
+      p.image = splitUri[0] + imageTransformationParams + splitUri[1];
+    } catch (error) {
+      console.log(error);
+    }
   });
   return resProducts;
 }
@@ -38,35 +42,27 @@ const ProductAdminHome = ({ params }) => {
   const { businessId } = use(params);
   const [business, setBusiness] = useState("");
   const [products, setProducts] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const handleSubmit = async () => {
-    if (isSearching) {
-      return;
-    }
-    setIsSearching(true);
-    setLoading(true);
-    try {
-      const res = await axios.post('/api/product/products', { businessId });
-      if (res.status === 200 || res.status === 201) {
-        const data = transformImages(res.data);
-        setProducts(res.data);
-        setBusiness(res.data[0].business.name)
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSearching(false);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const handleSubmit = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.post('/api/product/products', { businessId });
+        if (res.status === 200 || res.status === 201) {
+          const data = transformImages(res.data);
+          setProducts(res.data);
+          setBusiness(res.data[0].business.name)
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
     handleSubmit();
-  }, []);
-
+  }, [businessId]);
 
   if (loading) {
     return <LoadingErrorComponent loading={true} />;
@@ -85,23 +81,27 @@ const ProductAdminHome = ({ params }) => {
             {products.map((product) => (
               <div
                 key={product._id}
-                className="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl relative"
+                className="rounded-xl shadow-lg border-2 border-black overflow-hidden transition duration-300 hover:shadow-xl relative"
               >
-                <Image
-                  width={500}
-                  height={200}
-                  alt={product.name}
-                  src={product.image || "https://cdn.pixabay.com/photo/2015/09/13/21/13/dishes-938747_1280.jpg"}
-                ></Image>
-                <EditProductButton productId={product._id} />
                 <div className="p-0">
-                  <h3 className="text-l font-semibold text-gray-800 mb-1 pl-5 float-left">
-                    {product.name}
-                  </h3>
-                  <h3 className="text-l font-semibold text-gray-800 mb-1 pr-5 float-right">
-                    {product.price}
+                  <h3 className="text-l font-semibold text-gray-800 mb-1 pl-5">
+                    {product.name} - {product.price}
                   </h3>
                 </div>
+                {
+                  product.image ?
+                    <Image
+                      width={500}
+                      height={200}
+                      alt={product.name}
+                      src={product.image}
+                    />
+                    :
+                    <div className="p-2 m-2">
+                      {product.description}
+                    </div>
+                }
+                <EditProductButton productId={product._id} />
               </div>
             ))}
           </div>

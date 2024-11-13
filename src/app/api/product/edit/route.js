@@ -11,7 +11,7 @@ export async function POST(req) {
 
   try {
     await dbConnect();
-    const product = await Product.findById(productId).select('_id name image description productType price');
+    const product = await Product.findById(productId).select('_id name image description productType price featured');
     if (!product) {
       return NextResponse.json(
         { error: "Products not found" },

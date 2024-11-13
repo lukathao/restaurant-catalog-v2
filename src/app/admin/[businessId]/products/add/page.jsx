@@ -9,9 +9,8 @@ import Image from "next/image";
 
 const Create = ({ params }) => {
   const { businessId } = use(params);
-  const [imageUrl, setImageUrl] = useState(
-    "https://cdn.pixabay.com/photo/2015/09/13/21/13/dishes-938747_1280.jpg"
-  );
+  const [imageUrl, setImageUrl] = useState();
+  const [isFeatured, setIsFeatured] = useState(false);
 
   const defaultFormData = {
     name: "",
@@ -20,17 +19,27 @@ const Create = ({ params }) => {
     price: 0,
     business: businessId,
     productType: "entree",
+    featured: false,
   };
 
   const [product, setProduct] = useState(defaultFormData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(value);
     setProduct((prevState) => ({
       ...prevState, [name]: value
     }));
   };
+
+  const handleFeatured = (e) => {
+    const { checked } = e.target;
+    console.log(isFeatured);
+    if (checked) {
+      setIsFeatured(true);
+    } else {
+      setIsFeatured(false);
+    }
+  }
 
   const handleUpload = (result) => {
     if (result.event === "success") {
@@ -49,8 +58,11 @@ const Create = ({ params }) => {
     e.preventDefault();
     try {
       const productData = {
-        ...product, image: imageUrl
+        ...product,
+        image: imageUrl,
+        featured: isFeatured
       };
+      console.log(productData);
       const productRes = await axios.post("/api/product", productData);
       if (productRes.status === 200 || productRes.status === 201) {
         setProduct(defaultFormData);
@@ -107,7 +119,7 @@ const Create = ({ params }) => {
               </div>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-              {
+              {imageUrl &&
                 <div className="relative group">
                   <Image
                     height={500}
@@ -162,7 +174,7 @@ const Create = ({ params }) => {
               id="productType"
               value={product.productType}
               onChange={handleChange}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+              className="mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
               required
             >
               <option value="">Select a type</option>
@@ -173,6 +185,15 @@ const Create = ({ params }) => {
               <option value="party">Party</option>
               <option value="other">Other</option>
             </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Featured
+            </label>
+            <input
+              type="checkbox"
+              onChange={handleFeatured}
+              value={product.featured} />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
